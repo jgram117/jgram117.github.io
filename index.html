@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>John Gram — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #1a2744;
+      --red:      #9b1c1c;
+      --red-lt:   #b91c1c;
+      --charcoal: #1a1a1a;
+      --gray:     #6b7280;
+      --gray-lt:  #f3f4f6;
+      --border:   #e5e7eb;
+      --white:    #ffffff;
+      --nav-h:    64px;
+      --max-w:    1100px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--charcoal);
+      background: var(--white);
+    }
+
+    a { color: var(--red); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--red-lt); }
+
+    img { max-width: 100%; display: block; }
+
+    /* ── Layout helpers ── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 88px 0; }
+    section:nth-child(even) { background: var(--gray-lt); }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -.02em;
+    }
+
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--red);
+      margin-bottom: 48px;
+      border-radius: 2px;
+    }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: var(--navy);
+      z-index: 1000;
+      box-shadow: 0 2px 12px rgba(0,0,0,.18);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -.01em;
+      white-space: nowrap;
+    }
+    .nav-brand:hover { color: var(--white); opacity: .85; }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,.85);
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .nav-drawer {
+      display: none;
+      flex-direction: column;
+      background: var(--navy);
+      padding: 16px 24px 24px;
+      list-style: none;
+      gap: 0;
+    }
+    .nav-drawer li a {
+      display: block;
+      padding: 12px 0;
+      color: rgba(255,255,255,.85);
+      font-size: 1rem;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .nav-drawer li:last-child a { border-bottom: none; }
+    .nav-drawer.open { display: flex; }
+
+    /* ── HERO ── */
+    #hero {
+      padding: 0;
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: var(--nav-h);
+    }
+
+    .hero-inner {
+      padding: 80px 24px;
+    }
+
+    .hero-name {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -.03em;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-name::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: var(--red);
+      margin-top: 8px;
+      border-radius: 2px;
+    }
+
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 400;
+      color: rgba(255,255,255,.8);
+      margin-top: 20px;
+      margin-bottom: 16px;
+      letter-spacing: .01em;
+    }
+
+    .hero-tagline {
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.6);
+      max-width: 600px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    /* ── ABOUT ── */
+    .about-layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 52px;
+    }
+
+    .about-photo {
+      flex-shrink: 0;
+    }
+
+    .about-photo img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
+      border: 4px solid var(--navy);
+      box-shadow: 0 4px 20px rgba(26,39,68,.18);
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      color: #333;
+      line-height: 1.85;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .skill-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 32px;
+      box-shadow: 0 1px 6px rgba(0,0,0,.04);
+    }
+
+    .skill-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--red);
+      display: inline-block;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-list li {
+      background: var(--gray-lt);
+      color: var(--charcoal);
+      font-size: .82rem;
+      font-weight: 500;
+      padding: 4px 11px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .project-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      transition: box-shadow .25s, transform .25s;
+    }
+    .project-card:hover {
+      box-shadow: 0 6px 24px rgba(26,39,68,.12);
+      transform: translateY(-3px);
+    }
+
+    .method-tag {
+      display: inline-block;
+      background: rgba(155,28,28,.09);
+      color: var(--red);
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      padding: 3px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(155,28,28,.2);
+      width: fit-content;
+    }
+
+    .project-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    .project-card p {
+      font-size: .93rem;
+      color: #4b5563;
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .project-meta {
+      font-size: .82rem;
+      color: var(--gray);
+      font-style: italic;
+    }
+
+    .btn-pdf {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 9px 20px;
+      background: var(--red);
+      color: var(--white);
+      font-size: .85rem;
+      font-weight: 600;
+      border-radius: 5px;
+      letter-spacing: .02em;
+      transition: background .2s, transform .15s;
+      width: fit-content;
+      text-decoration: none;
+    }
+    .btn-pdf:hover {
+      background: var(--red-lt);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+      border-left: 2px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -37px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 2px var(--red);
+    }
+
+    .timeline-org {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .timeline-role {
+      font-size: .92rem;
+      font-weight: 500;
+      color: var(--red);
+      margin-top: 2px;
+    }
+
+    .timeline-meta {
+      font-size: .83rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+
+    .timeline-bullets {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .timeline-bullets li {
+      font-size: .93rem;
+      color: #4b5563;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .timeline-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+      font-size: .8rem;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .edu-item {
+      border-left: 3px solid var(--red);
+      padding: 4px 0 4px 24px;
+    }
+
+    .edu-school {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .edu-degree {
+      font-size: .97rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-top: 2px;
+    }
+
+    .edu-date {
+      font-size: .83rem;
+      color: var(--gray);
+      margin-top: 2px;
+      margin-bottom: 6px;
+    }
+
+    .edu-details {
+      font-size: .9rem;
+      color: #4b5563;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      text-align: center;
+    }
+
+    #contact .section-divider {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-tagline {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+
+    .contact-label {
+      font-weight: 600;
+      color: var(--navy);
+      min-width: 80px;
+      text-align: right;
+    }
+
+    .contact-row a {
+      color: var(--red);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.45);
+      text-align: center;
+      padding: 22px 24px;
+      font-size: .8rem;
+      letter-spacing: .02em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      section { padding: 64px 0; }
+
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+
+      .about-layout {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .skills-grid,
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-label { min-width: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-brand">John Gram</a>
+      <ul class="nav-links" id="nav-desktop">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <ul class="nav-drawer" id="nav-drawer">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-inner">
+      <h1 class="hero-name">John Gram</h1>
+      <p class="hero-title">M.S. Economics Candidate&nbsp;&nbsp;|&nbsp;&nbsp;Data Analyst</p>
+      <p class="hero-tagline">Specializing in econometrics, causal inference, and applied microeconomics</p>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About</h2>
+      <div class="section-divider"></div>
+      <div class="about-layout">
+        <div class="about-photo">
+          <img src="jack-1.jpg" alt="John Gram" />
+        </div>
+        <div class="about-text">
+          <p>
+            I am a graduate economics student at DePaul University in Chicago, expected to complete my M.S. in Economics
+            and Quantitative Analysis in Fall 2026. My work focuses on econometric methods, causal inference, and applied
+            microeconomics. I am a former U.S. Coast Guard servicemember, and I bring the same discipline and analytical
+            rigor to my research and data work. I have professional experience in geospatial analysis and border policy
+            research through the Border Policy Research Institute at Western Washington University.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title">Skills</h2>
+      <div class="section-divider"></div>
+      <div class="skills-grid">
+
+        <div class="skill-card">
+          <h3>Methods</h3>
+          <ul class="skill-list">
+            <li>Difference-in-Differences</li>
+            <li>Regression Discontinuity Design</li>
+            <li>Vector Autoregression</li>
+            <li>ARIMA / Time Series</li>
+            <li>Discrete Choice Demand Estimation</li>
+            <li>Two-Way Fixed Effects</li>
+            <li>Instrumental Variables</li>
+            <li>Unit Root Testing</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <h3>Programming</h3>
+          <ul class="skill-list">
+            <li>R</li>
+            <li>tidyverse</li>
+            <li>ggplot2</li>
+            <li>forecast</li>
+            <li>fredr</li>
+            <li>sf</li>
+            <li>flextable</li>
+            <li>Python</li>
+            <li>pandas</li>
+            <li>numpy</li>
+            <li>statsmodels</li>
+            <li>linearmodels</li>
+            <li>matplotlib</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <h3>Tools</h3>
+          <ul class="skill-list">
+            <li>FRED</li>
+            <li>USDA Data Sources</li>
+            <li>ACS Microdata</li>
+            <li>Git</li>
+            <li>Microsoft Office</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <div class="section-divider"></div>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <span class="method-tag">Difference-in-Differences</span>
+          <h3>The Effect of the Universal DH Rule on National League Offense</h3>
+          <p>
+            Estimated the causal effect of MLB's 2022 universal designated hitter rule on National League offensive
+            output using a difference-in-differences design. Found a statistically significant average treatment
+            effect of approximately +0.31 runs per game (p=0.022).
+          </p>
+          <a href="Impact%20of%20the%20universal%20DH%20in%20MLB.pdf" class="btn-pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
+        </div>
+
+        <div class="project-card">
+          <span class="method-tag">Difference-in-Differences</span>
+          <h3>The Kalamazoo Promise and Housing Costs</h3>
+          <p>
+            Examined the effect of the Kalamazoo Promise scholarship program on local housing costs using American
+            Community Survey microdata and a difference-in-differences design with two-way fixed effects in Python.
+          </p>
+          <a href="Kalamazoo%20Promise%20-%20John%20Gram%2C%20Michael%20Bosse%20%26%20Christina%20Potsi.pdf" class="btn-pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
+        </div>
+
+        <div class="project-card">
+          <span class="method-tag">Industrial Organization &nbsp;|&nbsp; Stackelberg Oligopoly</span>
+          <h3>The AI Chip Industry: Market Structure and Competition</h3>
+          <p>
+            Analyzed the AI chip industry as a Stackelberg oligopoly with Nvidia as the dominant leader. Examined
+            barriers to entry, vertical supply chain concentration (Nvidia, TSMC, ASML), welfare implications of
+            market power, pricing dynamics, and the structural effects of the CHIPS Act and U.S. export controls
+            on global semiconductor competition.
+          </p>
+          <a href="AI_Chip_Industry%20econ%20student%20confrence.pdf" class="btn-pdf" target="_blank" rel="noopener noreferrer">View PDF</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+      <div class="section-divider"></div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-org">Border Policy Research Institute — Western Washington University</div>
+          <div class="timeline-role">Research Assistant</div>
+          <div class="timeline-meta">Bellingham, WA</div>
+          <ul class="timeline-bullets">
+            <li>Conducted geospatial and policy analysis on U.S.–Canada border trade</li>
+            <li>Published StoryMap: "Trade in the Borderlands"</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-org">United States Coast Guard</div>
+          <div class="timeline-role">Servicemember</div>
+          <div class="timeline-meta">Prior Enlisted</div>
+          <ul class="timeline-bullets">
+            <li>Prior enlisted service; developed discipline, operational leadership, and analytical skills</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section id="education">
+    <div class="container">
+      <h2 class="section-title">Education</h2>
+      <div class="section-divider"></div>
+      <div class="edu-grid">
+
+        <div class="edu-item">
+          <div class="edu-school">DePaul University</div>
+          <div class="edu-degree">M.S. Economics and Quantitative Analysis</div>
+          <div class="edu-date">Expected Fall 2026 &nbsp;·&nbsp; Chicago, IL</div>
+          <div class="edu-details">
+            Specializations: Econometrics · Causal Inference · Time Series · Industrial Organization
+          </div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-school">Western Washington University</div>
+          <div class="edu-degree">B.A. in Economics</div>
+          <div class="edu-date">Certificate of Cybersecurity (2024)</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <div class="section-divider"></div>
+      <p class="contact-tagline">Open to data analyst and research roles in Chicago.</p>
+      <div class="contact-links">
+        <div class="contact-row">
+          <span class="contact-label">Email</span>
+          <a href="mailto:jgram17@gmail.com">jgram17@gmail.com</a>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/john-gram-430997129" target="_blank" rel="noopener noreferrer">
+            linkedin.com/in/john-gram-430997129
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    &copy; 2026 John Gram
+  </footer>
+
+  <!-- ── JS: hamburger menu ── -->
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const drawer = document.getElementById('nav-drawer');
+
+    toggle.addEventListener('click', () => {
+      const open = drawer.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+
+    drawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', false);
+      });
+    });
+  </script>
+
+</body>
+</html>
